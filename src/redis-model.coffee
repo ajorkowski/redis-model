@@ -1,9 +1,5 @@
-redis = require('redis').createClient()
-
-module.exports.client = redis
-
-module.exports.RedisModel = class RedisModel
-	constructor: (@_type) ->
+module.exports = class RedisModel
+	constructor: (@redisClient, @_type) ->
 		@_idCount = @_type + '_CurrentId'
 		@_fields = []
 	
@@ -17,17 +13,17 @@ module.exports.RedisModel = class RedisModel
 	withKey: (key, cb) ->
 		if not @_type?
 			throw new Error 'The type of the model is not defined'
-		cb (new BaseModel @_fields, @_type, key)
+		cb (new BaseModel @_fields, @redisClient, @_type, key)
 	
 	newItem: (cb) ->
 		if not @_type?
 			throw new Error 'The type of the model is not defined'
-		redis.incr @_idCount, () =>
-			redis.get @_idCount, (err, id) =>
-		  	cb (new BaseModel @_fields, @_type, id)
+		@redisClient.incr @_idCount, () =>
+			@redisClient.get @_idCount, (err, id) =>
+		  	cb (new BaseModel @_fields, @redisClient, @_type, id)
 	
 class BaseModel
-	constructor: (fields, @_type, @key) ->
+	constructor: (fields, @redisClient, @_type, @key) ->
 		@_isLocked = false
 		@_innerObj = {}
 		@_key = @_type + '_' + @key 
@@ -39,7 +35,7 @@ class BaseModel
 	  
 	unlock: (cb) -> 
 		if @_isLocked
-	  	redis.hmset @_key, @_innerObj, (err, res) ->
+	  	@redisClient.hmset @_key, @_innerObj, (err, res) ->
 	  		cb()
 	  	@_innerObj = {}
 	  	@_isLocked = false
@@ -55,7 +51,7 @@ class BaseModel
 			if self._innerObj[field]?
 				cb self._innerObj[field]
 			else
-				redis.hget [self._key, field], (err, res) ->
+				self.redisClient.hget [self._key, field], (err, res) ->
 					cb res
 		else
 			cb self._innerObj[field] ? null		
@@ -70,11 +66,11 @@ class BaseModel
 				cb()
 		else
 			if value?
-				redis.hset [self._key, field, value], (err, res) ->
+				self.redisClient.hset [self._key, field, value], (err, res) ->
 					if cb?
 						cb()
 			else
-				redis.hdel [self._key, field], (err, res) ->
+				self.redisClient.hdel [self._key, field], (err, res) ->
 					if cb?
 						cb()
 						

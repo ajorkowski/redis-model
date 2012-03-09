@@ -1,10 +1,10 @@
-r = require '../lib/redis-model'
-redis = r.client
+RedisModel = require '../lib/redis-model'
+redis = require("redis").createClient()
 redis.flushall()
 
-class Model extends r.RedisModel
+class Model extends RedisModel
 	constructor: ->
-		super 'Model'
+		super redis, 'Model'
 		@addFields 'field1', 'field2'
 		
 Model = new Model
