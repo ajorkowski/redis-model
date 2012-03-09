@@ -2,7 +2,7 @@
   "author": "Felix Jorkowski (http://jorkowski.com)",
   "name": "redis-model",
   "description": "A Model wrapper over Redis",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/ajorkowski/redis-model",
   "repository": {
     "type": "git",

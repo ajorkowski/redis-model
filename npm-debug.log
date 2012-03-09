@@ -1,0 +1,254 @@
+info it worked if it ends with ok
+verbose cli [ 'node', '/usr/bin/npm', 'publish', '.' ]
+info using npm@1.0.106
+info using node@v0.6.12
+verbose /usr/bin/node node symlink
+verbose config file /home/felix/.npmrc
+verbose config file /usr/etc/npmrc
+verbose config file /usr/lib/node_modules/npm/npmrc
+verbose publish [ '.' ]
+silly testEngine { author: { name: 'Felix Jorkowski', url: 'http://jorkowski.com' },
+silly testEngine   name: 'redis-model',
+silly testEngine   description: 'A Model wrapper over Redis',
+silly testEngine   version: '0.0.1',
+silly testEngine   homepage: 'https://github.com/ajorkowski/redis-model',
+silly testEngine   repository: 
+silly testEngine    { type: 'git',
+silly testEngine      url: 'git://github.com/ajorkowski/redis-model.git' },
+silly testEngine   main: 'lib/redis-model.js',
+silly testEngine   dependencies: {},
+silly testEngine   devDependencies: { nodeunit: '*', redis: '*' },
+silly testEngine   _npmUser: { name: 'ajorkowski', email: 'a.jorkowski@gmail.com' },
+silly testEngine   _id: 'redis-model@0.0.1',
+silly testEngine   engines: { node: '*' },
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.106',
+silly testEngine   _nodeVersion: 'v0.6.12',
+silly testEngine   _defaultsLoaded: true,
+silly testEngine   scripts: {} }
+verbose caching /home/felix/Amazon-EC2/FelixSite/node_modules/redis-model/package.json
+verbose loadDefaults redis-model@0.0.1
+info prepublish redis-model@0.0.1
+verbose cache add [ '.', null ]
+silly cache add: name, spec, args [ undefined, '.', [ '.', null ] ]
+verbose parsed url { pathname: '.', path: '.', href: '.' }
+silly testEngine { author: { name: 'Felix Jorkowski', url: 'http://jorkowski.com' },
+silly testEngine   name: 'redis-model',
+silly testEngine   description: 'A Model wrapper over Redis',
+silly testEngine   version: '0.0.1',
+silly testEngine   homepage: 'https://github.com/ajorkowski/redis-model',
+silly testEngine   repository: 
+silly testEngine    { type: 'git',
+silly testEngine      url: 'git://github.com/ajorkowski/redis-model.git' },
+silly testEngine   main: 'lib/redis-model.js',
+silly testEngine   dependencies: {},
+silly testEngine   devDependencies: { nodeunit: '*', redis: '*' },
+silly testEngine   _npmUser: { name: 'ajorkowski', email: 'a.jorkowski@gmail.com' },
+silly testEngine   _id: 'redis-model@0.0.1',
+silly testEngine   engines: { node: '*' },
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.106',
+silly testEngine   _nodeVersion: 'v0.6.12',
+silly testEngine   _defaultsLoaded: true,
+silly testEngine   path: '/home/felix/Amazon-EC2/FelixSite/node_modules/redis-model',
+silly testEngine   bundleDependencies: [] }
+verbose caching package.json
+verbose loadDefaults redis-model@0.0.1
+verbose pack /home/felix/Amazon-EC2/FelixSite/node_modules/redis-model /tmp/npm-1331294959642/1331294959642-0.9476120180916041/tmp.tgz
+silly makeList /home/felix/Amazon-EC2/FelixSite/node_modules/redis-model
+verbose mkdir (expected) error ENOENT, no such file or directory '/tmp/npm-1331294959642'
+verbose mkdir (expected) error ENOENT, no such file or directory '/tmp/npm-1331294959642/1331294959642-0.9476120180916041'
+verbose mkdir done: /tmp/npm-1331294959642/1331294959642-0.9476120180916041 755
+verbose mkdir'ed /tmp/npm-1331294959642/1331294959642-0.9476120180916041
+verbose tar about to write tar and gzip it.
+silly tar args [ '-czvf', '-', '-T', '-' ]
+silly spawning [ 'tar',
+silly spawning   [ '-czvf', '-', '-T', '-' ],
+silly spawning   '/home/felix/Amazon-EC2/FelixSite/node_modules' ]
+verbose mkdir (expected) error ENOENT, no such file or directory '/tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents'
+verbose mkdir (expected) error ENOENT, no such file or directory '/tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm'
+verbose mkdir done: /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm 755
+verbose unpack_ uid, gid [ undefined, undefined ]
+verbose unpackTarget /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/package
+silly gunzTarPerm modes [ '755', '644' ]
+silly spawning [ 'tar',
+silly spawning   [ '-zmvxpf',
+silly spawning     '/tmp/npm-1331294959642/1331294959642-0.9476120180916041/tmp.tgz' ],
+silly spawning   '/tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm' ]
+silly tar out redis-model/Cakefile
+silly tar out redis-model/README.md
+silly tar out redis-model/.gitignore
+silly tar out redis-model/package.json
+silly tar out redis-model/src/redis-model.coffee
+silly tar out redis-model/lib/redis-model.js
+silly tar out redis-model/test/benchmarks.coffee
+silly tar out redis-model/test/redis-model.coffee
+silly tar exit 0
+silly asyncMap in gTP /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model
+silly asyncMap in gTP /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model/README.md
+silly asyncMap in gTP /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model/.gitignore
+silly asyncMap in gTP /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model/Cakefile
+silly asyncMap in gTP /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model/package.json
+silly asyncMap in gTP /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model/lib
+silly asyncMap in gTP /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model/lib/redis-model.js
+silly asyncMap in gTP /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model/src
+silly asyncMap in gTP /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model/src/redis-model.coffee
+silly asyncMap in gTP /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model/test
+silly asyncMap in gTP /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model/test/benchmarks.coffee
+silly asyncMap in gTP /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model/test/redis-model.coffee
+silly chmod redis-model 755
+silly chmod README.md 644
+silly chmod .gitignore 644
+silly chmod Cakefile 644
+silly chmod package.json 644
+silly chmod lib 755
+silly chmod src 755
+silly chmod redis-model.js 644
+silly chmod redis-model.coffee 644
+silly chmod test 755
+silly chmod benchmarks.coffee 644
+silly chmod redis-model.coffee 644
+verbose gunzed /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model
+verbose rm'ed /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/package
+verbose renamed [ '/tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/___package.npm/redis-model',
+verbose renamed   '/tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/package' ]
+silly testEngine { author: { name: 'Felix Jorkowski', url: 'http://jorkowski.com' },
+silly testEngine   name: 'redis-model',
+silly testEngine   description: 'A Model wrapper over Redis',
+silly testEngine   version: '0.0.1',
+silly testEngine   homepage: 'https://github.com/ajorkowski/redis-model',
+silly testEngine   repository: 
+silly testEngine    { type: 'git',
+silly testEngine      url: 'git://github.com/ajorkowski/redis-model.git' },
+silly testEngine   main: 'lib/redis-model.js',
+silly testEngine   dependencies: {},
+silly testEngine   devDependencies: { nodeunit: '*', redis: '*' },
+silly testEngine   _npmUser: { name: 'ajorkowski', email: 'a.jorkowski@gmail.com' },
+silly testEngine   _id: 'redis-model@0.0.1',
+silly testEngine   engines: { node: '*' },
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.106',
+silly testEngine   _nodeVersion: 'v0.6.12',
+silly testEngine   _defaultsLoaded: true,
+silly testEngine   path: '/tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/package' }
+verbose caching /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/package/package.json
+verbose loadDefaults redis-model@0.0.1
+verbose tarball contents [ 'package' ]
+verbose from cache /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/package/package.json
+verbose pack /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/package /home/felix/.npm/redis-model/0.0.1/package.tgz
+silly makeList /tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents/package
+verbose mkdir'ed /home/felix/.npm/redis-model/0.0.1
+verbose tar about to write tar and gzip it.
+silly tar args [ '-czvf', '-', '-T', '-' ]
+silly spawning [ 'tar',
+silly spawning   [ '-czvf', '-', '-T', '-' ],
+silly spawning   '/tmp/npm-1331294959642/1331294959642-0.9476120180916041/contents' ]
+verbose mkdir (expected) error ENOENT, no such file or directory '/home/felix/.npm/redis-model/0.0.1/___package.npm'
+verbose mkdir done: /home/felix/.npm/redis-model/0.0.1/___package.npm 755
+verbose unpack_ uid, gid [ undefined, undefined ]
+verbose unpackTarget /home/felix/.npm/redis-model/0.0.1/package
+silly gunzTarPerm modes [ '755', '644' ]
+silly spawning [ 'tar',
+silly spawning   [ '-zmvxpf', '/home/felix/.npm/redis-model/0.0.1/package.tgz' ],
+silly spawning   '/home/felix/.npm/redis-model/0.0.1/___package.npm' ]
+silly tar out package/README.md
+silly tar out package/.gitignore
+silly tar out package/Cakefile
+silly tar out package/package.json
+silly tar out package/src/redis-model.coffee
+silly tar out package/lib/redis-model.js
+silly tar out package/test/benchmarks.coffee
+silly tar out package/test/redis-model.coffee
+silly tar exit 0
+silly asyncMap in gTP /home/felix/.npm/redis-model/0.0.1/___package.npm/package
+silly asyncMap in gTP /home/felix/.npm/redis-model/0.0.1/___package.npm/package/README.md
+silly asyncMap in gTP /home/felix/.npm/redis-model/0.0.1/___package.npm/package/.gitignore
+silly asyncMap in gTP /home/felix/.npm/redis-model/0.0.1/___package.npm/package/Cakefile
+silly asyncMap in gTP /home/felix/.npm/redis-model/0.0.1/___package.npm/package/package.json
+silly asyncMap in gTP /home/felix/.npm/redis-model/0.0.1/___package.npm/package/src
+silly asyncMap in gTP /home/felix/.npm/redis-model/0.0.1/___package.npm/package/src/redis-model.coffee
+silly asyncMap in gTP /home/felix/.npm/redis-model/0.0.1/___package.npm/package/lib
+silly asyncMap in gTP /home/felix/.npm/redis-model/0.0.1/___package.npm/package/lib/redis-model.js
+silly asyncMap in gTP /home/felix/.npm/redis-model/0.0.1/___package.npm/package/test
+silly asyncMap in gTP /home/felix/.npm/redis-model/0.0.1/___package.npm/package/test/benchmarks.coffee
+silly asyncMap in gTP /home/felix/.npm/redis-model/0.0.1/___package.npm/package/test/redis-model.coffee
+silly chmod package 755
+silly chmod src 755
+silly chmod lib 755
+silly chmod test 755
+verbose gunzed /home/felix/.npm/redis-model/0.0.1/___package.npm/package
+verbose rm'ed /home/felix/.npm/redis-model/0.0.1/package
+verbose renamed [ '/home/felix/.npm/redis-model/0.0.1/___package.npm/package',
+verbose renamed   '/home/felix/.npm/redis-model/0.0.1/package' ]
+silly testEngine { author: { name: 'Felix Jorkowski', url: 'http://jorkowski.com' },
+silly testEngine   name: 'redis-model',
+silly testEngine   description: 'A Model wrapper over Redis',
+silly testEngine   version: '0.0.1',
+silly testEngine   homepage: 'https://github.com/ajorkowski/redis-model',
+silly testEngine   repository: 
+silly testEngine    { type: 'git',
+silly testEngine      url: 'git://github.com/ajorkowski/redis-model.git' },
+silly testEngine   main: 'lib/redis-model.js',
+silly testEngine   dependencies: {},
+silly testEngine   devDependencies: { nodeunit: '*', redis: '*' },
+silly testEngine   _npmUser: { name: 'ajorkowski', email: 'a.jorkowski@gmail.com' },
+silly testEngine   _id: 'redis-model@0.0.1',
+silly testEngine   engines: { node: '*' },
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.106',
+silly testEngine   _nodeVersion: 'v0.6.12',
+silly testEngine   _defaultsLoaded: true,
+silly testEngine   dist: 
+silly testEngine    { shasum: 'aaf29a269276f9ed4f55b9579ce80c0fe02537c4',
+silly testEngine      tarball: 'http://registry.npmjs.org/redis-model/-/redis-model-0.0.1.tgz' } }
+verbose caching /home/felix/.npm/redis-model/0.0.1/package/package.json
+verbose loadDefaults redis-model@0.0.1
+silly updated sha bytes 4810
+info shasum aaf29a269276f9ed4f55b9579ce80c0fe02537c4
+info shasum /home/felix/.npm/redis-model/0.0.1/package.tgz
+verbose from cache /home/felix/.npm/redis-model/0.0.1/package/package.json
+verbose chmod /home/felix/.npm/redis-model/0.0.1/package.tgz 644
+verbose chown [ '/home/felix/.npm/redis-model/0.0.1/package.tgz', 1000, 1000 ]
+silly publish { author: { name: 'Felix Jorkowski', url: 'http://jorkowski.com' },
+silly publish   name: 'redis-model',
+silly publish   description: 'A Model wrapper over Redis',
+silly publish   version: '0.0.1',
+silly publish   homepage: 'https://github.com/ajorkowski/redis-model',
+silly publish   repository: 
+silly publish    { type: 'git',
+silly publish      url: 'git://github.com/ajorkowski/redis-model.git' },
+silly publish   main: 'lib/redis-model.js',
+silly publish   dependencies: {},
+silly publish   devDependencies: { nodeunit: '*', redis: '*' },
+silly publish   _npmUser: { name: 'ajorkowski', email: 'a.jorkowski@gmail.com' },
+silly publish   _id: 'redis-model@0.0.1',
+silly publish   engines: { node: '*' },
+silly publish   _engineSupported: true,
+silly publish   _npmVersion: '1.0.106',
+silly publish   _nodeVersion: 'v0.6.12',
+silly publish   _defaultsLoaded: true,
+silly publish   dist: 
+silly publish    { shasum: 'aaf29a269276f9ed4f55b9579ce80c0fe02537c4',
+silly publish      tarball: 'http://registry.npmjs.org/redis-model/-/redis-model-0.0.1.tgz' } }
+verbose PUT redis-model
+verbose raw, before any munging redis-model
+verbose url resolving [ 'https://registry.npmjs.org/', './redis-model' ]
+verbose url resolved https://registry.npmjs.org/redis-model
+verbose GET redis-model
+verbose raw, before any munging redis-model
+verbose url resolving [ 'https://registry.npmjs.org/', './redis-model' ]
+verbose url resolved https://registry.npmjs.org/redis-model
+info Already published redis-model@0.0.1
+verbose uploading bin dists []
+ERR! publish fail Cannot publish over existing version.
+ERR! publish fail Bump the 'version' field, set the --force flag, or
+ERR! publish fail     npm unpublish 'redis-model@0.0.1'
+ERR! publish fail and try again
+ERR! 
+ERR! System Linux 3.0.0-16-generic
+ERR! command "node" "/usr/bin/npm" "publish" "."
+ERR! cwd /home/felix/Amazon-EC2/FelixSite/node_modules/redis-model
+ERR! node -v v0.6.12
+ERR! npm -v 1.0.106
+ERR! code EPUBLISHCONFLICT
+verbose exit [ 1, true ]
