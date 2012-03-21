@@ -19,25 +19,30 @@ class Blog extends RedisModel
 Create instances with automatic keys, or use your own:
 
 ```
-Blog.newItem (blogInstance) ->
+Blog.newItem (err, blogInstance) ->
 	# Do stuff with blogInstance with automatic key
 
-Blog.withKey 'akey', (blogInstance) ->
+Blog.withKey 'akey', (err, blogInstance) ->
 	# Do stuff with blogInstance with set key
 ```
 	
 Get values simply:
 
 ```
-blogInstance.url (url) ->
+blogInstance.url (err, url) ->
 	console.log url
+	
+blogInstance.getAll (err, blog) ->
+	console.log blog.url
+	console.log blog.date
+	console.log blog.content
 ```
 
 You can save values one at a time, or lock for full advantage
 
 ```
 # Save a value straight away
-blogInstance.url 'http://www.google.com', ->
+blogInstance.url 'http://www.google.com', (err) ->
 	# Value is saved at this point
 	
 # Lock and save multiple values at once
@@ -45,7 +50,7 @@ blogInstance.lock()
 blogInstance.url 'url'
 blogInstance.date 'date'
 blogInstance.content 'content'
-blogInstance.unlock ->
+blogInstance.unlock (err) ->
 	# All values saved in one call - this is much faster than saving each individually
 ```
 
@@ -58,13 +63,15 @@ $ npm install redis-model
 ### Benchmark test results
 
 ```bash
-1000 normal sequential requests done in 44ms
+1000 normal sequential requests done in 79ms
 ✔ Pure redis (read)
-1000 redis-model sequential requests done in 30ms
+1000 redis-model sequential requests done in 68ms
 ✔ Redis-Model (read)
-1000 normal sequential requests done in 37ms
+500 redis-model sequential requests for two fields done in 46ms
+✔ Redis-Model with locking (read)
+1000 normal sequential requests done in 62ms
 ✔ Pure redis (save)
-500 redis-model sequential requests for two fields done in 19ms
+500 redis-model sequential requests for two fields done in 38ms
 ✔ Redis-Model with locking (save)
 ```
 

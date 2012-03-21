@@ -12,15 +12,24 @@ module.exports = class RedisModel
 	
 	withKey: (key, cb) ->
 		if not @_type?
-			throw new Error 'The type of the model is not defined'
-		cb (new BaseModel @_fields, @redisClient, @_type, key)
+			err = 'The type of the model is not defined'
+		else
+			model = (new BaseModel @_fields, @redisClient, @_type, key)
+		if cb?
+			cb err, model
 	
 	newItem: (cb) ->
 		if not @_type?
-			throw new Error 'The type of the model is not defined'
+			if cb?
+				cb 'The type of the model is not defined'
+			return
+			
 		@redisClient.incr @_idCount, () =>
 			@redisClient.get @_idCount, (err, id) =>
-		  	cb (new BaseModel @_fields, @redisClient, @_type, id)
+				if not err?
+					model = (new BaseModel @_fields, @redisClient, @_type, id)
+		  	if cb?
+		  		cb err, model
 	
 class BaseModel
 	constructor: (fields, @redisClient, @_type, @key) ->
@@ -36,9 +45,16 @@ class BaseModel
 	unlock: (cb) -> 
 		if @_isLocked
 	  	@redisClient.hmset @_key, @_innerObj, (err, res) ->
-	  		cb()
-	  	@_innerObj = {}
-	  	@_isLocked = false
+	  		@_innerObj = {}
+	  		@_isLocked = false
+	  		cb err, res
+	  		
+	getAll: (cb) ->
+		self = this
+		@redisClient.hgetall @_key, (err, res) ->
+			if not err?
+				result = self.extendObjs self._innerObj, res
+			cb err, res
 
 	# ------------------------------------------------
 	# Private functions
@@ -49,12 +65,15 @@ class BaseModel
 		# as that is only for saving
 		if self._key?
 			if self._innerObj[field]?
-				cb self._innerObj[field]
+				if cb?
+					cb null, self._innerObj[field]
 			else
 				self.redisClient.hget [self._key, field], (err, res) ->
-					cb res
+					if cb?
+						cb err, res
 		else
-			cb self._innerObj[field] ? null		
+			if cb?
+				cb null, self._innerObj[field] ? null		
 
   # If we are locked then do not save a value straight away
 	setField = (self, field, value, cb) ->
@@ -68,11 +87,11 @@ class BaseModel
 			if value?
 				self.redisClient.hset [self._key, field, value], (err, res) ->
 					if cb?
-						cb()
+						cb err, res
 			else
 				self.redisClient.hdel [self._key, field], (err, res) ->
 					if cb?
-						cb()
+						cb err, res
 						
 	setFunction = (self, field) ->
 		(value, cb) ->
@@ -85,3 +104,13 @@ class BaseModel
 				setField self, field, value, cb
 			else
 				getField self, field, cb
+	
+	extendObjs: (obj1, obj2) ->
+		obj3 = {}
+		for key, val of obj2
+			obj3[key] = obj2[key]
+		for key, val of obj1
+			if obj1[key]?
+				obj3[key] = obj1[key]
+		return obj3
+
