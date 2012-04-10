@@ -26,6 +26,21 @@ Blog.withKey 'akey', (err, blogInstance) ->
 	# Do stuff with blogInstance with set key
 ```
 	
+New: Sort command is available on your model to quickly get a list of your items
+from a list of keys
+
+```
+Blog.sort 'externalSetOfKeys', { alpha: true, skip: 10, take: 5 }, (err, blogs) ->
+	# Sort by alphabetical order on the keys, skip 10 records and take 5 records
+	blogs[0] == { key: 'key', url: 'url', date: 'date', content: 'content' }
+	
+Blog.sort 'externalSetOfKeys', { byField: 'url', alpha:true, asc: false }, (err, blogs) ->
+	# Sort the keys by the url field of your blogs, in alphabetical descending order
+	
+Blog.sort 'externalSetOfKeys', { by: 'nosort', getKey: false }, (err, blogs) ->
+	# Don't worry about sorting, and don't worry about pulling back the key
+```
+
 Get values simply:
 
 ```
@@ -52,6 +67,9 @@ blogInstance.date 'date'
 blogInstance.content 'content'
 blogInstance.unlock (err) ->
 	# All values saved in one call - this is much faster than saving each individually
+	
+blogInstance.setAll { url: 'url', date: 'date', content: 'content' }, (err) ->
+	# All values are saved in one call here too
 ```
 
 ### Installation

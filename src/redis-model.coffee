@@ -1,42 +1,134 @@
 module.exports = class RedisModel
-	constructor: (@redisClient, @_type) ->
-		@_idCount = @_type + '_CurrentId'
+	constructor: (@_client, @namespace, @_seperator) ->
+		@_seperator ?= ':'
+		@_idCount = @namespace + @_seperator + 'CurrentId'
 		@_fields = []
 	
 	addFields: (names...) ->
 		for name in names
 			throw new Error 'Field is already defined' if @_fields.indexOf(name) > -1
+			throw new Error "The 'key' field is reserved" if name == 'key'
+			throw new Error "The 'namespace' field is reserved" if name == 'namespace'
 			@_fields.push name
 		# for chaining
 		return this
+		
+	sort: (externalKey, options, cb) ->
+		if not options? or typeof options == 'function'
+			cb = options
+			options = {}
+			
+		options.getKey ?= true
+		options.asc ?= true
+		options.alpha ?= false
+		options.skip ?= 0
+		options.take ?= null
+		options.byField ?= null
+		options.by ?= null
+		
+		if options.byField? and options.by?
+			return cb 'Cannot sort by a field and by some other method at the same time'
 	
+		# construct the sort arguments
+		sorting = [externalKey]
+		
+		if options.byField?
+			sorting.push 'BY'
+			sorting.push @namespace + @_seperator + @_seperator + '*->' + options.byField
+			
+		if options.by?
+			sorting.push 'BY'
+			sorting.push options.by
+			
+		if options.take?
+			sorting.push 'LIMIT'
+			sorting.push options.skip
+			sorting.push options.take
+			
+		if options.alpha
+			sorting.push 'ALPHA'
+			
+		if not options.asc
+			sorting.push 'DESC'
+			
+		if options.getKey
+			sorting.push 'GET'
+			sorting.push '#'
+			
+		for field in @_fields
+			sorting.push 'GET'
+			sorting.push @namespace + @_seperator + @_seperator + '*->' + field
+			
+		@_client.sort sorting, (err, res) =>
+			if err?
+				return cb err
+				
+			items = []
+			item = {}
+			noFields = @_fields.length
+			if options.getKey
+				noFields++
+			count = 0
+				
+			for field in res
+				fieldNum = count % noFields
+				if options.getKey
+					if fieldNum == 0
+						item.key = field
+					else
+						item[@_fields[fieldNum - 1]] = field
+				else
+					item[@_fields[fieldNum]] = field
+				
+				# If last field push item and get next
+				if fieldNum == noFields - 1
+					items.push item
+					item = {}
+				
+				count++
+			
+			cb null, items
+		
 	withKey: (key, cb) ->
-		if not @_type?
-			err = 'The type of the model is not defined'
+		if not @namespace?
+			err = 'The namespace of the model is not defined'
 		else
-			model = (new BaseModel @_fields, @redisClient, @_type, key)
+			model = (new BaseModel @_fields, @_client, @namespace, @_seperator, key)
 		if cb?
 			cb err, model
 	
 	newItem: (cb) ->
-		if not @_type?
+		if not @namespace?
 			if cb?
-				cb 'The type of the model is not defined'
+				cb 'The namespace of the model is not defined'
 			return
 			
-		@redisClient.incr @_idCount, () =>
-			@redisClient.get @_idCount, (err, id) =>
+		@_client.multi()
+			.incr(@_idCount)
+			.get(@_idCount)
+			.exec (err, results) =>
 				if not err?
-					model = (new BaseModel @_fields, @redisClient, @_type, id)
-		  	if cb?
-		  		cb err, model
+					id = results[1]
+					model = (new BaseModel @_fields, @_client, @namespace, @_seperator, id)
+				if cb?
+					cb err, model
+					
+	clearNamespace: (cb) ->
+		@_client.keys @namespace + '*', (e, keys) =>
+			if e?
+				return cb e
+				
+			if keys.length == 0
+				return cb null
+						
+			@_client.del keys, cb
 	
 class BaseModel
-	constructor: (fields, @redisClient, @_type, @key) ->
+	constructor: (@_fields, @_client, @namespace, @_seperator, @key) ->
 		@_isLocked = false
 		@_innerObj = {}
-		@_key = @_type + '_' + @key 
-		for field in fields
+		@_key = @namespace + @_seperator + @_seperator + @key 
+		for field in @_fields
 			this[field] = setFunction this, field
 			
 	lock: () ->
@@ -44,18 +136,41 @@ class BaseModel
 	  
 	unlock: (cb) -> 
 		if @_isLocked
-	  	@redisClient.hmset @_key, @_innerObj, (err, res) ->
-	  		@_innerObj = {}
-	  		@_isLocked = false
-	  		cb err, res
+	  	@_client.hmset @_key, @_innerObj, (err, res) ->
+	  		if not err?
+	  			@_innerObj = {}
+	  			@_isLocked = false
+	  			
+	  		if cb?
+	  			cb err, res
 	  		
 	getAll: (cb) ->
 		self = this
-		@redisClient.hgetall @_key, (err, res) ->
+		@_client.hgetall @_key, (err, res) ->
 			if not err?
 				result = self.extendObjs self._innerObj, res
-			cb err, res
+				result.key = self.key
+				
+			if cb?
+				cb err, result
 
+	setAll: (obj, cb) ->
+		if @_isLocked
+			for field in @_fields
+				@_innerObj[field] = obj[field]
+			if cb?
+				cb()
+		else
+			multi = @_client.multi()
+			for field in @_fields
+				if obj[field]?
+					multi.hset @_key, field, obj[field]
+				else
+					multi.hdel @_key, field
+			multi.exec (err) ->
+				if cb?
+					cb err
+			
 	# ------------------------------------------------
 	# Private functions
 	# ------------------------------------------------
@@ -68,7 +183,7 @@ class BaseModel
 				if cb?
 					cb null, self._innerObj[field]
 			else
-				self.redisClient.hget [self._key, field], (err, res) ->
+				self._client.hget [self._key, field], (err, res) ->
 					if cb?
 						cb err, res
 		else
@@ -85,11 +200,11 @@ class BaseModel
 				cb()
 		else
 			if value?
-				self.redisClient.hset [self._key, field, value], (err, res) ->
+				self._client.hset [self._key, field, value], (err, res) ->
 					if cb?
 						cb err, res
 			else
-				self.redisClient.hdel [self._key, field], (err, res) ->
+				self._client.hdel [self._key, field], (err, res) ->
 					if cb?
 						cb err, res
 						

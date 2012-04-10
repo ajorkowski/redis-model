@@ -1,18 +1,37 @@
 {
-  "author": "Felix Jorkowski (http://jorkowski.com)",
+  "author": {
+    "name": "Felix Jorkowski",
+    "url": "http://jorkowski.com"
+  },
   "name": "redis-model",
   "description": "A Model wrapper over Redis",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage": "https://github.com/ajorkowski/redis-model",
   "repository": {
     "type": "git",
     "url": "git://github.com/ajorkowski/redis-model.git"
   },
   "main": "lib/redis-model.js",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "nodeunit": "*",
     "redis": "*"
-  }
+  },
+  "_npmUser": {
+    "name": "ajorkowski",
+    "email": "a.jorkowski@gmail.com"
+  },
+  "_id": "redis-model@0.0.3",
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "_engineSupported": true,
+  "_npmVersion": "1.1.4",
+  "_nodeVersion": "v0.6.13",
+  "_defaultsLoaded": true,
+  "dist": {
+    "shasum": "d4cea6e346739976b037a2e943fd80fb02e52b03"
+  },
+  "_from": "redis-model@0.0.3"
 }

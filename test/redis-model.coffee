@@ -58,6 +58,16 @@ exports['withKey'] =
 			test.ok model.field2?, 'Field2 was not added'
 			test.done()
 
+exports['clearNamespace'] =
+	'All keys are cleared': (test) ->
+		test.expect 1
+		Model.withKey 'id', (e, model) ->
+			model.field1 'newValue', () ->
+				Model.clearNamespace () ->
+					model.field1 (e2, field1) ->
+						test.ok not field1?, 'Field1 still exists'
+						test.done()
+			
 exports['BaseModel'] =
 	'Not locked can write and read': (test) ->
 		test.expect 1
@@ -98,7 +108,7 @@ exports['BaseModel'] =
 						test.equal val, 'foo', 'The value on the object should have been saved'
 						test.done()		
 						
-	'Can save multiple fields at once': (test) ->
+	'Can save multiple fields at once via locking': (test) ->
 		test.expect 2
 		Model.withKey 'someid', (err, model) ->
 			model.lock()
@@ -111,6 +121,17 @@ exports['BaseModel'] =
 							test.equal val, 'bar', 'The value on the object should have been saved'
 							test.equal val2, 'foobar', 'The value on the object should have been saved'
 							test.done()		
+					
+	'Can save multiple fields at once via setAll': (test) ->
+		test.expect 2
+		Model.withKey 'someid', (err, model) ->
+			model.setAll { field1: 'barAll', field2: 'foobarAll'}, ->
+				Model.withKey 'someid', (err2, mod2) ->
+					mod2.field1 (err3, val) ->
+						mod2.field2 (err4, val2) ->
+							test.equal val, 'barAll', 'The value on the object should have been saved'
+							test.equal val2, 'foobarAll', 'The value on the object should have been saved'
+							test.done()
 							
 	'Can load multiple fields at once': (test) ->
 		test.expect 2
@@ -124,6 +145,14 @@ exports['BaseModel'] =
 						test.equal obj.field1, 'bar', 'The value on the object should have been saved'
 						test.equal obj.field2, 'foobar', 'The value on the object should have been saved'
 						test.done()
+						
+	'Get all includes the key': (test) ->
+		test.expect 1
+		Model.withKey 'someid', (err, model) ->
+			model.getAll (err2, obj) ->
+				console.log obj.key
+				test.equal obj.key, 'someid', 'getAll did not return the key'
+				test.done()
 
 exports['Complete'] = (test) ->
 	# This is a dummy test to finish off the tests
