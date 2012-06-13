@@ -5,7 +5,7 @@
   },
   "name": "redis-model",
   "description": "A Model wrapper over Redis",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "homepage": "https://github.com/ajorkowski/redis-model",
   "repository": {
     "type": "git",

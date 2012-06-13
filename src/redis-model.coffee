@@ -172,12 +172,14 @@ class BaseModel
 		multi = @_client.multi()
 		multi.setAll = (obj) ->
 			setAllInternal self, obj, multi
+			return multi
 			
 		multi.setField = (field, value) ->
 			if value?
 				multi.hset [self._key, field, value]
 			else
 				multi.hdel [self._key, field]
+			return multi
 			
 		return multi
 			
