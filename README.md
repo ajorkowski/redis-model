@@ -72,6 +72,23 @@ blogInstance.setAll { url: 'url', date: 'date', content: 'content' }, (err) ->
 	# All values are saved in one call here too
 ```
 
+NEW: Has a multi interface that lets you save your data at the same time as
+other keys. It adds two methods to the multi interface, setAll and setField.
+
+```
+# setField example
+blogInstance.multi()
+	.sadd('AllBogs', blogInstance.key)
+	.setField('url', 'www.newUrl.com')
+	.exec cb
+	
+# setAll example
+blogInstance.multi()
+	.sadd('AllBogs', blogInstance.key)
+	.setAll({ url: 'www.url.com', date: 'date', content: 'content' })
+	.exec cb
+```
+
 ### Installation
 
 ```bash

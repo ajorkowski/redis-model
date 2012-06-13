@@ -162,18 +162,35 @@ class BaseModel
 				cb()
 		else
 			multi = @_client.multi()
-			for field in @_fields
-				if obj[field]?
-					multi.hset @_key, field, obj[field]
-				else
-					multi.hdel @_key, field
+			setAllInternal @, obj, multi
 			multi.exec (err) ->
 				if cb?
 					cb err
+					
+	multi: () ->
+		self = this
+		multi = @_client.multi()
+		multi.setAll = (obj) ->
+			setAllInternal self, obj, multi
+			
+		multi.setField = (field, value) ->
+			if value?
+				multi.hset [self._key, field, value]
+			else
+				multi.hdel [self._key, field]
+			
+		return multi
 			
 	# ------------------------------------------------
 	# Private functions
 	# ------------------------------------------------
+	setAllInternal = (self, obj, multi) ->
+		for field in self._fields
+			if obj[field]?
+				multi.hset self._key, field, obj[field]
+			else
+				multi.hdel self._key, field
+	
 	getField = (self, field, cb) ->
 		# If we dont have a key then the value will be null
 		# note we dont really care about @_isLocked here
